@@ -104,13 +104,14 @@ async function retryWithBackoff<T>(
 ): Promise<T> {
   for (let i = 0; i < maxRetries; i++) {
     try {
-      return await fn();
-    } catch (error: any) {
+      return await fn();    } catch (error: unknown) {
       if (i === maxRetries - 1) throw error;
       
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      
       // If it's a rate limit error, wait longer
-      if (error?.message?.includes('429') || error?.message?.includes('quota')) {
-        const delay = baseDelay * Math.pow(2, i) * (error?.message?.includes('429') ? 3 : 1);
+      if (errorMessage.includes('429') || errorMessage.includes('quota')) {
+        const delay = baseDelay * Math.pow(2, i) * (errorMessage.includes('429') ? 3 : 1);
         await new Promise(resolve => setTimeout(resolve, delay));
       } else {
         throw error; // Don't retry for other errors
@@ -134,8 +135,6 @@ function isImageRequest(message: string): boolean {
 
 // Extract image description from user message
 function extractImageDescription(message: string): string {
-  const lowerMessage = message.toLowerCase();
-  
   // Remove common image request phrases to get the core description
   const removePhases = [
     'generate image of', 'create image of', 'make image of', 'generate an image of',
@@ -217,8 +216,7 @@ export async function generateAIResponseServer(
       
       // Add conversation history if available
       if (conversationHistory && conversationHistory.length > 0) {
-        prompt += `\n\nHere's our conversation so far:\n`;
-        conversationHistory.forEach((msg, index) => {
+        prompt += `\n\nHere's our conversation so far:\n`;        conversationHistory.forEach((msg) => {
           const role = msg.role === 'user' ? 'Human' : 'Assistant';
           prompt += `${role}: ${msg.content}\n`;
         });
@@ -237,12 +235,13 @@ export async function generateAIResponseServer(
         text: response.text(),
         modelUsed: `${TEXT_MODELS[modelKey]} (text only)`
       };
-    }
-  } catch (error: any) {
+    }  } catch (error: unknown) {
     console.error('Error generating AI response:', error);
     
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    
     // Handle specific error types
-    if (error?.message?.includes('429') || error?.message?.includes('quota')) {
+    if (errorMessage.includes('429') || errorMessage.includes('quota')) {
       return { 
         text: "I'm experiencing high demand right now. Please try again in a few moments! In the meantime, feel free to explore other conversations. 🚀",
         modelUsed: 'quota_exceeded'

@@ -4,7 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "../components/AuthProvider";
 
 export const metadata: Metadata = {
-  title: "Neural Chat AI",
+  title: "CHATGPT",
   description: "AI-powered chat application with tRPC and Gemini",
 };
 

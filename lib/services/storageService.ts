@@ -10,9 +10,8 @@ export async function uploadImageToStorage(
     
     // Convert base64 to buffer
     const buffer = Buffer.from(imageData, 'base64')
-    
-    // Upload to Supabase Storage
-    const { data, error } = await supabase.storage
+      // Upload to Supabase Storage
+    const { error } = await supabase.storage
       .from('generated-images')
       .upload(filename, buffer, {
         contentType: 'image/png',

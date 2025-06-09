@@ -104,9 +104,8 @@ export async function GET(request: NextRequest) {
         if (session.expires < Date.now()) {
           return NextResponse.json({ error: 'Session expired' }, { status: 401 });
         }
-        
-        return NextResponse.json({ user: session.user });
-      } catch (error) {
+          return NextResponse.json({ user: session.user });
+      } catch {
         return NextResponse.json({ error: 'Invalid session' }, { status: 401 });
       }
       

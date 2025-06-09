@@ -53,7 +53,7 @@ export default function Home() {
             style={{ backgroundColor: "#212121", border: "1px solid #303030" }}
           >
             <div className="card-body p-4">
-              <h2 className="card-title mb-3">Welcome to Neural Chat AI</h2>
+              <h2 className="card-title mb-3">Welcome to CHATGPT</h2>
               <p className="card-text text-muted mb-4">
                 Sign in to access your personal AI chat assistant powered by
                 Google Gemini.
@@ -106,7 +106,6 @@ export default function Home() {
             conversationId={selectedConversationId}
             onConversationCreated={handleConversationCreated}
             onToggleSidebar={toggleSidebar}
-            sidebarOpen={sidebarOpen}
           />
         </div>
       </div>

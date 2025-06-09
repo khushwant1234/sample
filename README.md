@@ -1,4 +1,4 @@
-# Neural Chat AI
+# CHATGPT
 
 A modern ChatGPT-like application powered by Google Gemini AI, built with Next.js, TypeScript, Tailwind CSS, and Supabase.
 

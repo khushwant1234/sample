@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Send, User, Bot, Menu } from "lucide-react";
 import { trpc } from "@/lib/trpc/client";
 import type { Message } from "@/lib/types/database";
@@ -62,14 +62,12 @@ interface ChatInterfaceProps {
   conversationId: string | null;
   onConversationCreated?: (conversationId: string) => void;
   onToggleSidebar?: () => void;
-  sidebarOpen?: boolean;
 }
 
 export function ChatInterface({
   conversationId,
   onConversationCreated,
   onToggleSidebar,
-  sidebarOpen,
 }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -78,16 +76,7 @@ export function ChatInterface({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  // Load messages when conversation changes
-  useEffect(() => {
-    if (conversationId) {
-      loadMessages();
-    } else {
-      setMessages([]);
-    }
-  }, [conversationId]);
-
-  const loadMessages = async () => {
+  const loadMessages = useCallback(async () => {
     if (!conversationId) return;
     try {
       const data = await trpc.chat.getMessages.query({ conversationId });
@@ -95,7 +84,16 @@ export function ChatInterface({
     } catch (error) {
       console.error("Error loading messages:", error);
     }
-  };
+  }, [conversationId]);
+
+  // Load messages when conversation changes
+  useEffect(() => {
+    if (conversationId) {
+      loadMessages();
+    } else {
+      setMessages([]);
+    }
+  }, [conversationId, loadMessages]);
   useEffect(() => {
     // Use setTimeout to ensure DOM is fully updated
     const timer = setTimeout(() => {
@@ -163,12 +161,13 @@ export function ChatInterface({
           role: msg.role as "user" | "assistant",
           content: msg.content,
         }));
-
         const aiResponse = await trpc.ai.generateResponse.mutate({
           message: messageContent,
           model: selectedModel,
           conversationHistory,
         });
+
+        console.log("AI Response:", aiResponse); // Debug log
 
         const assistantMessage = await trpc.chat.addMessage.mutate({
           conversationId,
@@ -176,6 +175,8 @@ export function ChatInterface({
           role: "assistant",
           imageUrl: aiResponse.imageUrl,
         });
+
+        console.log("Assistant Message:", assistantMessage); // Debug log
 
         setMessages((prev) => [...prev, assistantMessage]);
       }
@@ -216,7 +217,7 @@ export function ChatInterface({
                 <Menu size={18} />
               </button>
             )}
-            <h6 className="mb-0 text-white">Neural Chat AI</h6>
+            <h6 className="mb-0 text-white">CHATGPT</h6>
           </div>
         </div>
         {/* Welcome Screen */}
@@ -233,7 +234,7 @@ export function ChatInterface({
               >
                 <Bot size={40} color="#ffffff" />
               </div>
-              <h2 className="mb-3">Neural Chat AI</h2>
+              <h2 className="mb-3">CHATGPT</h2>
               <p className="text-muted">
                 Powered by Google Gemini AI. Choose between Flash (fast) or Pro
                 (smart) models for text, plus actual image generation with
@@ -340,7 +341,7 @@ export function ChatInterface({
 
           <div className="text-center mt-1">
             <small className="text-muted">
-              Neural Chat AI may generate incorrect information.
+              CHATGPT may generate incorrect information.
             </small>
           </div>
         </div>
@@ -456,7 +457,7 @@ export function ChatInterface({
                           onError={(e) => {
                             console.error("Error loading image:", e);
                           }}
-                        />{" "}
+                        />
                       </div>
                     )}
                     <div

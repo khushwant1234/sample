@@ -10,6 +10,7 @@ import {
   User,
   X,
 } from "lucide-react";
+import Image from "next/image";
 import { trpc } from "@/lib/trpc/client";
 import { useAuth } from "@/components/AuthProvider";
 import type { Conversation } from "@/lib/types/database";
@@ -109,8 +110,9 @@ export function Sidebar({
     >
       {/* Header */}
       <div className="p-3 border-bottom border-secondary">
+        {" "}
         <div className="d-flex align-items-center justify-content-between mb-3">
-          <h5 className="mb-0 text-white">Neural Chat AI</h5>
+          <h5 className="mb-0 text-white">CHATGPT</h5>
           {/* Mobile close button */}
           {onCloseSidebar && (
             <button
@@ -206,13 +208,14 @@ export function Sidebar({
       <div className="user-profile-section p-3">
         <div className="d-flex align-items-center gap-3">
           <div className="flex-shrink-0">
+            {" "}
             {user?.picture ? (
-              <img
+              <Image
                 src={user.picture}
                 alt={user.name || "User"}
+                width={44}
+                height={44}
                 className="user-avatar rounded-circle"
-                width="44"
-                height="44"
                 style={{
                   objectFit: "cover",
                   border: "2px solid #303030",
