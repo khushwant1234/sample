@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Neural Chat AI
+
+A modern ChatGPT-like application powered by Google Gemini AI, built with Next.js, TypeScript, Tailwind CSS, and Supabase.
+
+## Features
+
+- 🤖 **Powered by Google Gemini AI** - Advanced text generation and creative responses
+- 🎨 **Image Concept Generation** - Request detailed descriptions of images and visual concepts
+- 💬 **Real-time Chat Interface** - Smooth conversation experience with modern UI
+- 🗂️ **Smart Conversation Management** - Automatic conversation creation and cleanup
+- ✏️ **Dynamic Conversation Titles** - Auto-generated titles based on first message
+- 🗑️ **Conversation History** - Edit titles and delete conversations
+- 🎭 **Glassmorphism Design** - Modern, beautiful UI with gradient backgrounds
+- 📱 **Mobile-Responsive** - Works perfectly on all devices
+- 🎯 **TypeScript** - Full type safety throughout the application
+- 🚀 **Auto-conversation Creation** - Start chatting immediately without manual setup
+
+## AI Capabilities
+
+### Text Generation
+
+- Powered by Gemini 1.5 Pro model
+- Contextual and engaging responses
+- Topic-aware conversations
+- Creative writing assistance
+
+### Image Concept Generation
+
+Try asking for:
+
+- "Generate image of a sunset over mountains"
+- "Create picture of a futuristic city"
+- "Draw a magical forest"
+- "Visualize a space station"
+
+The AI will provide detailed, creative descriptions of what such images would look like.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+
+- A Supabase account and project
+- A Google AI Studio account for Gemini API access
+
+### Setup
+
+1. **Clone and install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+2. **Set up Supabase:**
+
+   - Create a new project at [supabase.com](https://supabase.com)
+   - Copy your project URL and anon key
+   - Run the SQL from `supabase/schema.sql` in your Supabase SQL editor
+
+3. **Get Gemini API Key:**
+
+   - Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
+   - Create a new API key for Gemini
+
+4. **Configure environment variables:**
+   Update `.env` with your credentials:
+
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   GEMINI_API_KEY=your_gemini_api_key
+   ```
+
+5. **Run the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+6. **Open your browser:**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+## Database Schema
+
+The application uses two main tables:
+
+- **conversations**: Stores chat conversation metadata
+- **messages**: Stores individual messages within conversations
+
+## Customization
+
+### Adding Real AI Integration
+
+Replace the mock AI service in `lib/services/aiService.ts` with your preferred AI provider:
+
+- OpenAI GPT
+- Anthropic Claude
+- Google Gemini
+- Local models via Ollama
+
+### Styling
+
+The UI uses Tailwind CSS. Customize the design by modifying the component classes or extending the Tailwind configuration.
+
+## Project Structure
+
+```
+├── app/                  # Next.js app directory
+│   ├── layout.tsx       # Root layout
+│   └── page.tsx         # Main chat page
+├── components/          # React components
+│   ├── ChatInterface.tsx
+│   └── Sidebar.tsx
+├── lib/                 # Utilities and services
+│   ├── services/        # Business logic
+│   ├── supabase/        # Database clients
+│   └── types/           # TypeScript types
+└── supabase/           # Database schema
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## License
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT License - feel free to use this project as a starting point for your own chat applications!

@@ -1,26 +1,344 @@
-@import "tailwindcss";
+/* Color scheme: #171717, #303030, #ffffff, #212121 */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bs-dark: #171717;
+  --bs-secondary: #303030;
+  --bs-light: #ffffff;
+  --bs-dark-alt: #212121;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #171717;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #212121;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #303030;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #404040;
+}
+
+/* Bootstrap customizations */
+.btn-outline-light:hover {
+  background-color: #303030;
+  border-color: #303030;
+}
+
+.list-group-item {
+  background-color: transparent;
+  border-color: #303030;
+  color: #ffffff;
+}
+
+.list-group-item:hover {
+  background-color: #212121;
+}
+
+.list-group-item.active {
+  background-color: #303030;
+  border-color: #303030;
+}
+
+.form-control {
+  background-color: #212121;
+  border-color: #303030;
+  color: #ffffff;
+}
+
+.form-control:focus {
+  background-color: #212121;
+  border-color: #ffffff;
+  color: #ffffff;
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+}
+
+.form-control::placeholder {
+  color: #999;
+}
+
+.btn-primary {
+  background-color: #303030;
+  border-color: #303030;
+}
+
+.btn-primary:hover {
+  background-color: #404040;
+  border-color: #404040;
+}
+
+.btn-sm {
+  font-size: 0.875rem;
+}
+
+.text-muted {
+  color: #999 !important;
+}
+
+.border-end {
+  border-color: #303030 !important;
+}
+
+/* Ensure proper scrolling behavior for chat messages */
+.overflow-auto {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  max-height: 100%;
+}
+
+/* Ensure the main container doesn't overflow */
+.vh-100 {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden;
+}
+
+/* Prevent images from causing layout shifts */
+.img-fluid {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Ensure smooth scrolling */
+.chat-messages {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #303030 #171717;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  flex: 1 1 0%;
+  min-height: 0;
+}
+
+/* Ensure the chat interface container uses full height properly */
+.d-flex.flex-column.h-100 {
+  height: 100vh !important;
+  max-height: 100vh !important;
+}
+
+/* Main page container - no scroll on the page itself */
+.page-container {
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+/* Message content formatting */
+.message-content ul {
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+}
+
+.message-content li {
+  margin-bottom: 0.25rem;
+  line-height: 1.5;
+}
+
+.message-content p {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.message-content p:last-child {
+  margin-bottom: 0;
+}
+
+.message-content strong {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.message-content em {
+  font-style: italic;
+  color: #e0e0e0;
+}
+
+/* User Profile Section Styles */
+.user-profile-section {
+  background: linear-gradient(135deg, #171717 0%, #1a1a1a 100%);
+  border-top: 1px solid #303030 !important;
+}
+
+.user-avatar {
+  transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.logout-btn {
+  transition: all 0.2s ease;
+  background: rgba(48, 48, 48, 0.3) !important;
+  border: 1px solid #303030 !important;
+  color: #999 !important;
+}
+
+.logout-btn:hover {
+  background: #303030 !important;
+  color: #ffffff !important;
+  border-color: #404040 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.logout-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.user-name {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.2 !important;
+}
+
+.user-email {
+  color: #999 !important;
+  font-size: 0.8rem !important;
+  line-height: 1.1 !important;
+  opacity: 0.9;
+}
+
+/* Responsive Design Utilities */
+.sidebar-mobile {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  width: 280px;
+  height: 100vh;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-mobile.show {
+  transform: translateX(0);
+}
+
+/* Desktop sidebar */
+@media (min-width: 992px) {
+  .sidebar-mobile {
+    position: relative !important;
+    transform: translateX(0) !important;
+    z-index: auto;
+  }
+  
+  .sidebar-mobile.show {
+    transform: translateX(0) !important;
+  }
+}
+
+@media (max-width: 991.98px) {
+  /* Mobile-specific styles */
+  .mobile-hidden {
+    display: none !important;
+  }
+  
+  .mobile-full-width {
+    width: 100% !important;
+  }
+  
+  .mobile-text-sm {
+    font-size: 0.875rem !important;
+  }
+  
+  .mobile-p-2 {
+    padding: 0.5rem !important;
+  }
+  
+  /* Chat interface mobile styles */
+  .chat-messages {
+    padding: 1rem !important;
+  }
+  
+  .message-bubble {
+    max-width: 85% !important;
+  }
+  
+  /* Mobile typography */
+  h1 { font-size: 1.75rem !important; }
+  h2 { font-size: 1.5rem !important; }
+  h3 { font-size: 1.25rem !important; }
+  h4 { font-size: 1.125rem !important; }
+  h5 { font-size: 1rem !important; }
+  h6 { font-size: 0.875rem !important; }
+}
+
+@media (max-width: 575.98px) {
+  /* Extra small devices */
+  .chat-messages {
+    padding: 0.75rem !important;
+  }
+  
+  .message-bubble {
+    max-width: 90% !important;
+  }
+  
+  .user-profile-section {
+    padding: 0.75rem !important;
+  }
+  
+  .user-avatar {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  
+  .user-name {
+    font-size: 0.85rem !important;
+  }
+  
+  .user-email {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Touch-friendly button sizes */
+@media (hover: none) and (pointer: coarse) {
+  .btn-sm {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .logout-btn {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+}
+
+/* Message bubbles responsive styling */
+.message-bubble {
+  max-width: 75%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Responsive input area */
+@media (max-width: 767.98px) {
+  .input-group textarea {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
 }
