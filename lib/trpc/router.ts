@@ -11,6 +11,7 @@ import {
   updateConversationTitle,
   deleteEmptyConversations
 } from '@/lib/services/chatService';
+import { getUserIdFromRequest } from '@/lib/services/userService';
 
 // AI Router
 const aiRouter = router({
@@ -31,22 +32,26 @@ const aiRouter = router({
 });
 
 // Chat Router  
-const chatRouter = router({  getConversations: publicProcedure
-    .query(async () => {
-      return await getConversations();
+const chatRouter = router({
+  getConversations: publicProcedure
+    .query(async ({ ctx }) => {
+      const userId = getUserIdFromRequest(ctx.req);
+      return await getConversations(userId);
     }),
 
   createConversation: publicProcedure
     .input(z.object({
       title: z.string().min(1)
     }))
-    .mutation(async ({ input }) => {
-      return await createConversation(input.title);
+    .mutation(async ({ input, ctx }) => {
+      const userId = getUserIdFromRequest(ctx.req);
+      return await createConversation(input.title, userId);
     }),
 
   deleteEmptyConversations: publicProcedure
-    .mutation(async () => {
-      await deleteEmptyConversations();
+    .mutation(async ({ ctx }) => {
+      const userId = getUserIdFromRequest(ctx.req);
+      await deleteEmptyConversations(userId);
       return { success: true };
     }),
 
@@ -54,8 +59,9 @@ const chatRouter = router({  getConversations: publicProcedure
     .input(z.object({
       conversationId: z.string()
     }))
-    .query(async ({ input }) => {
-      return await getMessages(input.conversationId);
+    .query(async ({ input, ctx }) => {
+      const userId = getUserIdFromRequest(ctx.req);
+      return await getMessages(input.conversationId, userId);
     }),
 
   addMessage: publicProcedure
@@ -65,9 +71,10 @@ const chatRouter = router({  getConversations: publicProcedure
       role: z.enum(['user', 'assistant']),
       imageUrl: z.string().optional()
     }))
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       const { conversationId, content, role, imageUrl } = input;
-      return await addMessage(conversationId, content, role, imageUrl);
+      const userId = getUserIdFromRequest(ctx.req);
+      return await addMessage(conversationId, content, role, imageUrl, userId);
     }),
 
   createConversationWithFirstMessage: publicProcedure
@@ -77,27 +84,29 @@ const chatRouter = router({  getConversations: publicProcedure
       role: z.enum(['user', 'assistant']),
       imageUrl: z.string().optional()
     }))
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       const { title, content, role, imageUrl } = input;
-      return await createConversationWithFirstMessage(title, content, role, imageUrl);
+      const userId = getUserIdFromRequest(ctx.req);
+      return await createConversationWithFirstMessage(title, content, role, imageUrl, userId);
     }),
 
   deleteConversation: publicProcedure
     .input(z.object({
       id: z.string()
     }))
-    .mutation(async ({ input }) => {
-      await deleteConversation(input.id);
+    .mutation(async ({ input, ctx }) => {
+      const userId = getUserIdFromRequest(ctx.req);
+      await deleteConversation(input.id, userId);
       return { success: true };
     }),
-
   updateConversationTitle: publicProcedure
     .input(z.object({
       id: z.string(),
       title: z.string().min(1)
     }))
-    .mutation(async ({ input }) => {
-      await updateConversationTitle(input.id, input.title);
+    .mutation(async ({ input, ctx }) => {
+      const userId = getUserIdFromRequest(ctx.req);
+      await updateConversationTitle(input.id, input.title, userId);
       return { success: true };
     }),
 });

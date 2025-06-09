@@ -5,20 +5,23 @@ export interface Database {
         Row: {
           id: string
           title: string
+          user_id: string
           created_at: string
           updated_at: string
         }
         Insert: {
           id?: string
           title: string
+          user_id: string
           created_at?: string
           updated_at?: string
         }
         Update: {
           id?: string
           title?: string
+          user_id?: string
           created_at?: string
-      updated_at?: string
+          updated_at?: string
         }
       }
       messages: {
@@ -27,6 +30,7 @@ export interface Database {
           conversation_id: string
           content: string
           role: 'user' | 'assistant'
+          user_id: string
           created_at: string
           image_url?: string
         }
@@ -35,6 +39,7 @@ export interface Database {
           conversation_id: string
           content: string
           role: 'user' | 'assistant'
+          user_id: string
           created_at?: string
           image_url?: string
         }
@@ -43,6 +48,7 @@ export interface Database {
           conversation_id?: string
           content?: string
           role?: 'user' | 'assistant'
+          user_id?: string
           created_at?: string
           image_url?: string
         }

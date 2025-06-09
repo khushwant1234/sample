@@ -371,7 +371,7 @@ export function ChatInterface({
               <Menu size={18} />
             </button>
           )}
-          <h6 className="mb-0 text-white">Neural Chat AI</h6>
+          <h6 className="mb-0 text-white">CHATGPT</h6>
         </div>
       </div>
       {/* Messages Area */}{" "}
